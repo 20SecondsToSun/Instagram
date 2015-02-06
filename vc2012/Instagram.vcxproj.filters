@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files\instagram">
+      <UniqueIdentifier>{20249ad6-dd8b-43db-b957-ae9c93215ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\instagram\api">
+      <UniqueIdentifier>{b5e547d5-436a-4910-bfee-a5e5fbacab8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\instagram\graphic">
+      <UniqueIdentifier>{a84a56e6-e665-405b-ae52-56ce0d751923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blocks">
+      <UniqueIdentifier>{9c40ce49-2d00-4c36-85db-eff7f444758a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blocks\Curl">
+      <UniqueIdentifier>{55441b5c-722d-4144-a8fe-257b04f04b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blocks\Curl\curl">
+      <UniqueIdentifier>{c91c577e-b12e-4abb-9d08-22c597246074}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\InstagramApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\InstagramApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\blocks\Cinder-Curl\src\Curl.cpp">
+      <Filter>blocks\Curl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\Cinder-Curl\src\Ftp.cpp">
+      <Filter>blocks\Curl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\Cinder-Curl\src\FtpManager.cpp">
+      <Filter>blocks\Curl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\ImageLink.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\ImagesList.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\InstagramMedia.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\InstagramResponse.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\InstBaseObject.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\MetaData.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\Pagination.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\Tag.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\api\User.h">
+      <Filter>Source Files\instagram\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\graphic\ImageGraphic.h">
+      <Filter>Source Files\instagram\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\InstagramClient.h">
+      <Filter>Source Files\instagram</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\InstagramViewer.h">
+      <Filter>Source Files\instagram</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\Curl.h">
+      <Filter>blocks\Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\Ftp.h">
+      <Filter>blocks\Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\FtpManager.h">
+      <Filter>blocks\Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\curl.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\curlbuild.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\curlrules.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\curlver.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\easy.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\mprintf.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\multi.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\stdcheaders.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Curl\src\curl\typecheck-gcc.h">
+      <Filter>blocks\Curl\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\graphic\CompositeDispatcher.h">
+      <Filter>Source Files\instagram\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\graphic\Dispatcher.h">
+      <Filter>Source Files\instagram\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\graphic\EventGUI.h">
+      <Filter>Source Files\instagram\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\instagram\InstaPopup.h">
+      <Filter>Source Files\instagram</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
