@@ -38,16 +38,20 @@ namespace instagram
 			gl::color(ColorA(bgColor.r, bgColor.g, bgColor.b, alpha));
 			gl::drawSolidRect(getWindowBounds());
 			gl::color(Color::white());
-			ci::gl::Texture tex = client->getLastStandartResTexture();
-			if(tex)
+
+			ci::gl::Texture tex = image.getStandartResImage();
+
+			if (tex)
 				gl::draw(tex, Vec2f(0.5*(getWindowWidth() - tex.getWidth()), 0.5*(getWindowHeight() - tex.getHeight())));
+			
 
 			gl::popMatrices();
 			CompositeDispatcher::draw();
 		}
 
-		void show(ci::EaseFn eFunc = ci::EaseOutCubic(), float time = 0.7f)
+		void show(const ImageGraphic& image, ci::EaseFn eFunc = ci::EaseOutCubic(), float time = 0.7f)
 		{
+			this->image = image;
 			showing = true;
 			alpha = 0.0f;
 			timeline().apply(&alpha, 0.85f, time, eFunc)
@@ -61,12 +65,7 @@ namespace instagram
 			timeline().apply(&alpha, 0.0f, time, eFunc)
 				.updateFn(bind( &InstaPopup::alphAnimationUpdate, this))
 				.finishFn( bind( &InstaPopup::hideAnimationFinish, this));
-		}
-
-		void setImage(const std::shared_ptr<ci::Surface>& image)
-		{
-			this->image = image;
-		}
+		}		
 
 		void alphAnimationUpdate()
 		{
@@ -116,11 +115,12 @@ namespace instagram
 		SignalVoid touchedEvent;
 
 	private:
+		ci::gl::Texture tex;
+		ImageGraphic image;
 		ci::signals::scoped_connection	mouseUpCon;			
 
 		ci::ColorA bgColor;
 		ci::Anim<float> alpha;
-		std::shared_ptr<ci::Surface> image;
 		InstagramClientRef client;
 
 		bool showing, connected;

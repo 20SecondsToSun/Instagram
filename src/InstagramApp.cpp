@@ -19,17 +19,27 @@ class InstagramApp : public AppNative {
 	InstagramViewerRef instaViewer;
 	InstaPopupRef instaPopup;
 	void touchedHandler();
-	void closePopupHandler();	
+	void closePopupHandler();
+	void create();
+	void kill();
+	void keyDown(KeyEvent event);
+
+	bool created;
 };
 
 void InstagramApp::setup()
 {
 	setWindowSize(1224, 1000);
+	create();
+	gl::enableAlphaBlending();
+}
 
+void InstagramApp::create()
+{
 	string clientID = "6ac8af15a5d341e9802c8d1a26899ae3";
-	instClient	= InstagramClientRef(new InstagramClient(clientID));
+	instClient = InstagramClientRef(new InstagramClient(clientID));
 	instaViewer = InstagramViewerRef(new InstagramViewer(instClient));
-	instaPopup  = InstaPopupRef(new InstaPopup(instClient));
+	instaPopup = InstaPopupRef(new InstaPopup(instClient));
 
 	instaViewer->touchedEvent.connect(bind(&InstagramApp::touchedHandler, this));
 	instaViewer->connect();
@@ -37,19 +47,24 @@ void InstagramApp::setup()
 	//instClient->LoadingCompleteSignal.connect(bind(&InstagramApp::loadingDataComplete, this));
 	//instClient->userSearch("metalcorehero");
 	//instClient->loadUserFeed(instClient->getUsers().front().getID());	
-	instClient->loadTagMedia("beauty");	
+	instClient->loadTagMedia("beauty");
 	//instClient->loadPopularMedias();	
-	gl::enableAlphaBlending();
+	created = true;
+}
+
+void InstagramApp::kill()
+{
+	instaViewer->disconnect();
+	//instaViewer->touchedEvent.disconnect_all_slots();
+	instaPopup->disconnect();
+	created = false;
 }
 
 void InstagramApp::touchedHandler()
 {
 	instaViewer->disconnect();
-	int index = instaViewer->getLastImageIndexTouched();	
-	instaPopup->show();
-	instClient->loadStandartResImageByIndex(index);
-	
 
+	instaPopup->show(instaViewer->getImageGraphic());
 	instaPopup->touchedEvent.connect(bind(&InstagramApp::closePopupHandler, this));
 	instaPopup->connect();
 }
@@ -65,8 +80,24 @@ void InstagramApp::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) ); 
-	instaViewer->draw();
-	instaPopup->draw();
+	if (created)
+	{
+		instaViewer->draw();
+		instaPopup->draw();
+	}	
+}
+
+void InstagramApp::keyDown(KeyEvent event)
+{
+	switch (event.getCode())
+	{
+	case KeyEvent::KEY_q:
+		if (!created)			
+			create();
+		else if (!instClient->isLoading())
+			kill();
+		break;	
+	}
 }
 
 CINDER_APP_NATIVE( InstagramApp, RendererGl )

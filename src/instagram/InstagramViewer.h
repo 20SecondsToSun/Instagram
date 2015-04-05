@@ -10,7 +10,7 @@ namespace instagram
 	class InstagramViewer
 	{
 		typedef ci::signals::signal<void(void)> SignalVoid;
-
+		std::vector<ImageGraphic> images;
 	public:	
 		InstagramViewer(InstagramClientRef client)
 			:client(client),
@@ -54,7 +54,14 @@ namespace instagram
 
 		void update()
 		{
-			mainHeight = (client->getImages().size() / countInRaw) * oneImageWidth;	
+			if (!client->isLoading() && client->needSynch())
+			{
+				auto _newImages = client->getImages();
+				images.insert(images.end(), _newImages.begin(), _newImages.end());	
+				client->setSynch(false);
+			}
+
+			mainHeight = (images.size() / countInRaw) * oneImageWidth;			
 		}
 
 		void draw()
@@ -63,13 +70,12 @@ namespace instagram
 			gl::translate(currentPos.value());
 			
 			int x = 0, y = 0;
-			auto vec = client->getImages();
 			
-			for (int i = 0; i < vec.size(); i++)
+			for (int i = 0; i < images.size(); i++)
 			{
 				x = oneImageWidth  * (i % countInRaw);
 				y = oneImageWidth  * (i / countInRaw);
-				vec[i].draw(Vec2f(x, y));		
+				images[i].draw(Vec2f(x, y));
 			}
 			gl::popMatrices();	
 		}	
@@ -135,6 +141,8 @@ namespace instagram
 
 			currentMousePos = event.getPos();
 		}
+		
+		
 
 		void getTouchedImage(ci::Vec2f pos)
 		{
@@ -152,9 +160,9 @@ namespace instagram
 			blockDrag = false;
 		}
 
-		int getLastImageIndexTouched()
+		ImageGraphic getImageGraphic()
 		{
-			return lastImageIndexTouched;
+			return images[lastImageIndexTouched];
 		}
 
 		SignalVoid touchedEvent;

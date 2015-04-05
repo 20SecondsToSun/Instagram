@@ -46,8 +46,7 @@ namespace instagram
 		InstagramClient(string clientID)
 			:clientID(clientID),
 			_loading(false),
-			loadImagesImmediately(true),
-			lastHiResIndex(0)
+			_needSynch(false)
 		{
 
 		}
@@ -126,10 +125,11 @@ namespace instagram
 
 		void loadTagMedia(string tagName, int count = 20)
 		{
-			if(_loading) return;
-
-			_loading = true;
-			ThreadRef(new boost::thread( bind( &InstagramClient::_loadTagMedia, this, tagName, count)));
+			if (canLoad())
+			{
+				_loading = true;
+				ThreadRef(new boost::thread(bind(&InstagramClient::_loadTagMedia, this, tagName, count)));
+			}		
 		}
 
 		void _loadTagMedia(string tagName, int count = 20)
@@ -150,10 +150,11 @@ namespace instagram
 
 		void loadNextMedia()
 		{
-			if(_loading) return;
-
-			_loading = true;
-			ThreadRef( new boost::thread( bind( &InstagramClient::_loadNextMedia, this) ) );
+			if (canLoad())
+			{
+				_loading = true;
+				ThreadRef(new boost::thread(bind(&InstagramClient::_loadNextMedia, this)));
+			}		
 		}
 
 		void _loadNextMedia()
@@ -163,45 +164,15 @@ namespace instagram
 
 		void loadMediaRequest(string request)
 		{
-			string json = Curl::get(request);
-	
-			lastMediaResponse.parse(json);	
-		
-			if(loadImagesImmediately)
-				loadImages();
+			string json = Curl::get(request);	
+			lastMediaResponse.parse(json);
+			loadImages();
 
+			_needSynch = true;
 			_loading = false;
 		}
 
-		void loadStandartResImageByIndex(int index)
-		{	
-			lastHiResIndex = index;
-			ThreadRef( new boost::thread(bind( &InstagramClient::_loadStandartResImageByIndex, this) ) );
-		}
-
-		void _loadStandartResImageByIndex()
-		{			
-			if(lastHiResIndex < cashedTextures.size())
-			{
-				cashed_mutex.lock();
-				ImageGraphic img = cashedTextures[lastHiResIndex];
-				cashed_mutex.unlock();
-				img.loadStandartRes();
-
-				cashed_mutex.lock();
-				cashedTextures[lastHiResIndex] = img;
-				cashed_mutex.unlock();
-			}			
-		}
-
-		const ci::gl::Texture getLastStandartResTexture()
-		{	
-			cashed_mutex.lock();
-			ci::gl::Texture tex = cashedTextures[lastHiResIndex].getStandartResImage();
-			cashed_mutex.unlock();
-			return tex;
-		}
-
+		
 		////////////////////////////////////////////////////////////////////////////
 		//
 		//					GETTERS
@@ -213,41 +184,41 @@ namespace instagram
 			return _loading;
 		}
 
-		std::vector<ImageGraphic> getImages()
+		bool needSynch()
 		{
-			std::vector<ImageGraphic> images;
-			cashed_mutex.lock();
-			images = cashedTextures;
-			cashed_mutex.unlock();
-			return images;			
+			return _needSynch;
 		}
 
-		const list<User>& getUsers()
+		void setSynch(bool val)
 		{
-			return userList;
-		}
+			_needSynch = val;
+		}		
+
+		std::vector<ImageGraphic> getImages()
+		{
+			return synchImages;
+		}		
 
 	protected:
 		string clientID;
+		bool _loading, _needSynch;
 
-		int lastHiResIndex;
-		bool _loading, loadImagesImmediately;		
-
-		std::vector<ImageGraphic> cashedTextures;
-		boost::mutex cashed_mutex;
-
-		std::shared_ptr<ci::Surface> lastLoadedStandartResImage;
-		boost::mutex standartImageMutex;
-
+		std::vector<ImageGraphic> synchImages;
 		std::list<User> userList;		
 		
 		std::string nextRequest;
-		InstagramResponse<InstagramMedia> lastMediaResponse;
+		InstagramResponse<InstagramMedia> lastMediaResponse;	
+
+		bool canLoad()
+		{
+			return _loading || !_needSynch;
+		}
 	
 		void loadImages()
 		{
-			std::vector<ImageGraphic> textures_temp;		
 			list<InstagramMedia> mediaList = lastMediaResponse.getData();
+
+			synchImages.clear();
 
 			for (auto image : mediaList)
 			{					
@@ -255,24 +226,8 @@ namespace instagram
 				imageGr.setLowResURL(image.getImagesList().getLowResolution().getURL());
 				imageGr.setStandartResURL(image.getImagesList().getStandardResolution().getURL());
 				imageGr.setSize(306);
-				textures_temp.push_back(imageGr);										
+				synchImages.push_back(imageGr);
 			}
-
-			cashed_mutex.lock();
-			for (auto imageGr : textures_temp)	
-				cashedTextures.push_back(imageGr);	
-			cashed_mutex.unlock();
-
-			int startIndex = cashedTextures.size() - textures_temp.size();
-
-			for (int i = 0; i < textures_temp.size(); i++)
-			{
-				textures_temp[i].loadLowRes();
-
-				cashed_mutex.lock();
-				cashedTextures[startIndex + i] = textures_temp[i];			
-				cashed_mutex.unlock();	
-			}			
 		}
 	};
 

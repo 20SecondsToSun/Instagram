@@ -31,6 +31,9 @@
     <Filter Include="blocks\Curl\curl">
       <UniqueIdentifier>{c91c577e-b12e-4abb-9d08-22c597246074}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ph">
+      <UniqueIdentifier>{9694ea6e-112f-4c30-9158-431427ffb09d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\InstagramApp.cpp">
@@ -50,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="..\blocks\Cinder-Curl\src\FtpManager.cpp">
       <Filter>blocks\Curl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ph\TextureStore.cpp">
+      <Filter>Source Files\ph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,18 @@
     </ClInclude>
     <ClInclude Include="..\src\instagram\InstaPopup.h">
       <Filter>Source Files\instagram</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ph\ConcurrentDeque.h">
+      <Filter>Source Files\ph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ph\ConcurrentMap.h">
+      <Filter>Source Files\ph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ph\ConcurrentQueue.h">
+      <Filter>Source Files\ph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ph\TextureStore.h">
+      <Filter>Source Files\ph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
